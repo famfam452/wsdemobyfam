@@ -1,5 +1,6 @@
 
 const exprss = require('express');
+var PORT = process.env.PORT || 5000;
 const app = exprss();
 var http = require('http');
 var path = require("path");
@@ -167,4 +168,4 @@ server.on('upgrade', function upgrade(request,socket,head) {
 });
 
 
-server.listen(5000);
+server.listen(PORT);
