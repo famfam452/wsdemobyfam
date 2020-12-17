@@ -23,7 +23,7 @@
 </div>
 </body>
 <script>
-    const websocketWS = new WebSocket("ws://"+location.host+"/",["brownser"]);
+    const websocketWS = new WebSocket("wss://"+location.host+"/",["brownser"]);
     websocketWS.onopen = function() {
         websocketWS.send("from brownser");
         $.post("./userlist",{},function(data,status){
