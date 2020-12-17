@@ -19,6 +19,7 @@ app.use('/css', exprss.static(path.join(__dirname,'node_modules/bootstrap/dist/c
 app.use('/js', exprss.static(path.join(__dirname,'node_modules/bootstrap/dist/js')));
 app.use('/js', exprss.static(path.join(__dirname,'node_modules/jquery/dist')));
 app.use('/plotlyjs', exprss.static(path.join(__dirname,'node_modules/plotly.js-dist/')));
+app.use('/appcss', exprss.static(path.join(__dirname,'static/css')));
 const server = http.createServer(app);
 
 // require('dns').lookup(require('os').hostname(), function (err,add,fam) {

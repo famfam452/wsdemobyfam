@@ -7,15 +7,16 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <script src="./js/jquery.min.js"></script>
     <script src="./plotlyjs/plotly.js"></script>
+    <link rel="stylesheet" href="./appcss/app.css">
 </head>
 <body>
-<nav class="navbar navbar-light bg-light">
-  <span class="navbar-brand mb-0 h1">Drowsiness Drive Detection</span>
+<nav class="navbar navbar-light bg-info">
+  <span class="navbar-brand mb-0 mysize">Drowsiness Drive Detection</span>
 </nav>
 <div class="container mt-2">
     <div class="card text-left">
       <div class="card-body" id="hrvalue">
-        <h4 class="card-title" >รายชื่อ</h4>
+        <h4 class="card-title font-weight-bold p-3 mb-2 bg-info" >รายชื่อ</h4>
         <hr>
       </div>
     </div>
@@ -23,7 +24,7 @@
 </div>
 </body>
 <script>
-    const websocketWS = new WebSocket("wss://"+location.host+"/",["brownser"]);
+    const websocketWS = new WebSocket("ws://"+location.host+"/",["brownser"]);
     websocketWS.onopen = function() {
         websocketWS.send("from brownser");
         $.post("./userlist",{},function(data,status){
@@ -31,9 +32,10 @@
                 var listname = '';
                 if(d){
                     if(d.username && d.fullname){
-                    listname += '<div class="card-text">';
+                    //listname += '<div>';
+                    listname += '<div class="mysize">';
                     listname += d.fullname
-                    listname += ' : <span class="badge badge-warning" id="';
+                    listname += ' : <span class="badge badge-warning mysize" id="';
                     listname += d.username;
                     listname += '">';
                     listname += 'No Connection';
@@ -42,8 +44,19 @@
                     listname += '<div id="';
                     listname += 'g';
                     listname += d.username;
-                    listname += '"><div>';
+                    listname += '"><div class="spinner-grow text-danger" role="status"><span class="sr-only">Loading...</span></div></div>';
+                    listname += '<div id="';
+                    listname += 'l';
+                    listname += d.username;
+                    listname += '"><div class="spinner-border text-secondary" role="status"><span class="sr-only">Loading...</span></div></div>';
+                    listname += '<hr>';
                     $("#hrvalue").append(listname);
+                    var fstgid = '#g';
+                    fstgid += d.username;
+                    var fstlid = '#l';
+                    fstlid += d.username;
+                    $(fstgid).hide();
+                    $(fstlid).show();
                     }
                 };
             });
@@ -78,6 +91,18 @@
                 htmlid += dataString.client;
                 $(htmlid).empty();
                 $(htmlid).append(dataString.value);
+                var gid = '#g';
+                gid += dataString.client;
+                var lid = '#l';
+                lid += dataString.client;
+                if(dataString.event == "SensorUndetect"){
+                    $(gid).hide();
+                    $(lid).show();
+                } else {
+                    $(gid).show();
+                    $(lid).hide();
+                }
+
             };
         }
     };
